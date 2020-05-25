@@ -56,3 +56,7 @@ input[type=number] {
 input[type=checkbox] {
   transform: scale(1.5);
 }
+
+.readStatusCell:hover {
+  background-color: aqua;
+}

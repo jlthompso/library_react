@@ -66,11 +66,22 @@ class BookTable extends React.Component {
     this.setState({'books': books})
   }
 
-  handleClick (index, title) {
-    if (window.confirm(`Are you sure you want to delete ${title}?`)) {
-      let books = this.state.books
-      books.splice(index, 1)
-      this.setState({'books': books})
+  handleClick (e, index, title) {
+    switch (e.target.getAttribute('class')) {
+      case 'deleteButton':
+        if (window.confirm(`Are you sure you want to delete ${title}?`)) {
+          let books = this.state.books
+          books.splice(index, 1)
+          this.setState({'books': books})
+        }
+        break
+      case 'readStatusCell':
+        let books = this.state.books
+        books[index].read = !books[index].read
+        this.setState({'books': books})
+        break
+      default:
+        break
     }
   }
 
@@ -90,7 +101,7 @@ class BookTable extends React.Component {
             author={book.author}
             pages={book.pages}
             read={book.read ? 'yes' : 'no'}
-            onClick={() => this.handleClick(index, book.title)}
+            onClick={(e) => this.handleClick(e, index, book.title)}
           />
         })}
         <form id='newBookForm' onSubmit={this.handleSubmit} />
@@ -111,8 +122,14 @@ function BookRow (props) {
       <td>{props.title}</td>
       <td>{props.author}</td>
       <td>{props.pages}</td>
-      <td>{props.read}</td>
+      <ReadStatusCell read={props.read} onClick={props.onClick} />
     </tr>
+  )
+}
+
+function ReadStatusCell (props) {
+  return (
+    <td class='readStatusCell' onClick={props.onClick}>{props.read}</td>
   )
 }
 
@@ -161,7 +178,7 @@ function AddBookForm () {
 
 function DeleteBookButton (props) {
   return (
-    <button onClick={props.onClick}>X</button>
+    <button class='deleteButton' onClick={props.onClick}>X</button>
   )
 }
 
