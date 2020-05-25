@@ -12,6 +12,7 @@ class BookTable extends React.Component {
     super(props)
     if (window.localStorage.getItem('books') === null) {
       window.localStorage.setItem('books', [])
+      this.state = {books: []}
     } else {
       this.state = {books: JSON.parse(window.localStorage.getItem('books'))}
     }
