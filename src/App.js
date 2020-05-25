@@ -66,6 +66,14 @@ class BookTable extends React.Component {
     this.setState({'books': books})
   }
 
+  handleClick (index, title) {
+    if (window.confirm(`Are you sure you want to delete ${title}?`)) {
+      let books = this.state.books
+      books.splice(index, 1)
+      this.setState({'books': books})
+    }
+  }
+
   render() {
     return (
       <table>
@@ -76,12 +84,13 @@ class BookTable extends React.Component {
           <th>Pages</th>
           <th>Read?</th>
         </tr>
-        {this.state.books.map((book) => {
+        {this.state.books.map((book, index) => {
           return <BookRow
-            title = {book.title}
-            author = {book.author}
-            pages = {book.pages}
-            read = {book.read ? 'yes' : 'no'}
+            title={book.title}
+            author={book.author}
+            pages={book.pages}
+            read={book.read ? 'yes' : 'no'}
+            onClick={() => this.handleClick(index, book.title)}
           />
         })}
         <form id='newBookForm' onSubmit={this.handleSubmit} />
@@ -95,7 +104,9 @@ function BookRow (props) {
   return (
     <tr>
       <td>
-        <DeleteBookButton />
+        <DeleteBookButton
+          onClick={props.onClick}
+        />
       </td>
       <td>{props.title}</td>
       <td>{props.author}</td>
@@ -105,54 +116,52 @@ function BookRow (props) {
   )
 }
 
-class AddBookForm extends React.Component {
-  render() {
-    return (
-      <tr>
-        <td>
-          <AddBookButton />
-        </td>
-        <td>
-          <input
-            type='text'
-            name='fTitle'
-            placeholder='Enter book details...'
-            form='newBookForm'
-            required
-          />
-        </td>
-        <td>
-          <input
-            type='text'
-            name='fAuthor'
-            form='newBookForm'
-            required
-          />
-        </td>
-        <td>
-          <input
-            type='number'
-            name='fPages'
-            form='newBookForm'
-            min='1'
-            required
-          />
-        </td>
-        <td>
-          <input
-            type='checkbox'
-            name='fRead'
-            form='newBookForm'
-          />
-        </td>
-      </tr>
-    )
-  }
+function AddBookForm () {
+  return (
+    <tr>
+      <td>
+        <AddBookButton />
+      </td>
+      <td>
+        <input
+          type='text'
+          name='fTitle'
+          placeholder='Enter book details...'
+          form='newBookForm'
+          required
+        />
+      </td>
+      <td>
+        <input
+          type='text'
+          name='fAuthor'
+          form='newBookForm'
+          required
+        />
+      </td>
+      <td>
+        <input
+          type='number'
+          name='fPages'
+          form='newBookForm'
+          min='1'
+          required
+        />
+      </td>
+      <td>
+        <input
+          type='checkbox'
+          name='fRead'
+          form='newBookForm'
+        />
+      </td>
+    </tr>
+  )
 }
 
-function DeleteBookButton () {
+function DeleteBookButton (props) {
   return (
-    <button>X</button>
+    <button onClick={props.onClick}>X</button>
   )
 }
 
