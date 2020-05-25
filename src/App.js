@@ -11,11 +11,9 @@ class BookTable extends React.Component {
   constructor(props) {
     super(props)
     if (window.localStorage.getItem('books') === null) {
-      window.localStorage.setItem('books', [])
-      this.state = {books: []}
-    } else {
-      this.state = {books: JSON.parse(window.localStorage.getItem('books'))}
+      window.localStorage.setItem('books', JSON.stringify([]))
     }
+    this.state = {books: JSON.parse(window.localStorage.getItem('books'))}
   }
 
   handleSubmit = (e) => {
