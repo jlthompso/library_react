@@ -42,9 +42,28 @@ class BookTable extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    let title, author, pages, read
     for (let i = 0; i < e.target.length; i++) {
-      console.log(`${e.target[i].name}: ${e.target[i].value}`)
+      switch (e.target[i].name) {
+        case 'fTitle':
+          title = e.target[i].value
+          break
+        case 'fAuthor':
+          author = e.target[i].value
+          break
+        case 'fPages':
+          pages = Number(e.target[i].value)
+          break
+        case 'fRead':
+          read = e.target[i].checked
+          break
+        default:
+          break
+      }
     }
+    let books = this.state.books
+    books.push({title, author, pages, read})
+    this.setState({'books': books})
   }
 
   render() {
