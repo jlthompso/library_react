@@ -10,33 +10,10 @@ function App () {
 class BookTable extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      books: [
-        {
-          title: 'Yurts: Living in the Round',
-          author: 'Becky Kemery',
-          pages: 146,
-          read: false
-        },
-        {
-          title: 'Psychovertical',
-          author: 'Andy Kirkpatrick',
-          pages: 288,
-          read: true
-        },
-        {
-          title: 'Dead Mountain: The Untold True Story of the Dyatlov Pass Incident',
-          author: 'Donnie Eichar',
-          pages: 288,
-          read: true
-        },
-        {
-          title: 'Reinhold Messner: My Life At The Limit',
-          author: 'Reinhold Messner',
-          pages: 256,
-          read: false
-        }
-      ]
+    if (window.localStorage.getItem('books') === null) {
+      window.localStorage.setItem('books', null)
+    } else {
+      this.state = {books: JSON.parse(window.localStorage.getItem('books'))}
     }
   }
 
@@ -61,23 +38,27 @@ class BookTable extends React.Component {
           break
       }
     }
+    e.target.reset()
     let books = this.state.books
     books.push({title, author, pages, read})
+    window.localStorage.setItem('books', JSON.stringify(books))
     this.setState({'books': books})
   }
 
-  handleClick (e, index, title) {
+  handleClick = (e, index, title) => {
     switch (e.target.getAttribute('class')) {
       case 'deleteButton':
         if (window.confirm(`Are you sure you want to delete ${title}?`)) {
           let books = this.state.books
           books.splice(index, 1)
+          window.localStorage.setItem('books', JSON.stringify(books))
           this.setState({'books': books})
         }
         break
       case 'readStatusCell':
         let books = this.state.books
         books[index].read = !books[index].read
+        window.localStorage.setItem('books', JSON.stringify(books))
         this.setState({'books': books})
         break
       default:
