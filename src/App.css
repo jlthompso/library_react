@@ -2,7 +2,7 @@ table {
   border-collapse: collapse;
   position: fixed;
   top: 10px;
-  left: 50px;
+  left: 5px;
 }
 
 th, td {
@@ -36,7 +36,7 @@ table tr :nth-child(4), table tr :nth-child(5) {
   width: 75px;
 }
 
-button {
+button, input[type=submit] {
   height: 30px;
   width: 30px;
 }
@@ -46,6 +46,7 @@ input[type=text], input[type=number] {
   font-family: Helvetica;
   font-size: 14px;
   height: 25px;
+  width: 100%;
 }
 
 input[type=number] {

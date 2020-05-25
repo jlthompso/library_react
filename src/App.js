@@ -40,6 +40,13 @@ class BookTable extends React.Component {
     }
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault()
+    for (let i = 0; i < e.target.length; i++) {
+      console.log(`${e.target[i].name}: ${e.target[i].value}`)
+    }
+  }
+
   render() {
     return (
       <table>
@@ -51,13 +58,14 @@ class BookTable extends React.Component {
           <th>Read?</th>
         </tr>
         {this.state.books.map((book) => {
-          return <BookRow 
+          return <BookRow
             title = {book.title}
             author = {book.author}
             pages = {book.pages}
             read = {book.read ? 'yes' : 'no'}
           />
         })}
+        <form id='newBookForm' onSubmit={this.handleSubmit} />
         <AddBookForm />
       </table>
     )
@@ -86,16 +94,37 @@ class AddBookForm extends React.Component {
           <AddBookButton />
         </td>
         <td>
-          <input type='text' placeholder='Enter book details...' required></input>
+          <input
+            type='text'
+            name='fTitle'
+            placeholder='Enter book details...'
+            form='newBookForm'
+            required
+          />
         </td>
         <td>
-          <input type='text' required></input>
+          <input
+            type='text'
+            name='fAuthor'
+            form='newBookForm'
+            required
+          />
         </td>
         <td>
-          <input type='number' required></input>
+          <input
+            type='number'
+            name='fPages'
+            form='newBookForm'
+            min='1'
+            required
+          />
         </td>
         <td>
-          <input type='checkbox'></input>
+          <input
+            type='checkbox'
+            name='fRead'
+            form='newBookForm'
+          />
         </td>
       </tr>
     )
@@ -110,7 +139,11 @@ function DeleteBookButton () {
 
 function AddBookButton () {
   return (
-    <button>+</button>
+    <input
+      type='submit'
+      form='newBookForm'
+      value='+'
+    />
   )
 }
 
